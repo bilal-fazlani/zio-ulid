@@ -1,0 +1,88 @@
+site_name: zio-ulid
+site_url: https://zio-ulid.bilal-fazlani.com
+site_description: ZIO Scala implementation for ulid specification
+repo_name: 'bilal-fazlani/zio-ulid'
+repo_url: 'https://github.com/bilal-fazlani/zio-ulid'
+edit_uri: edit/main/docs/
+strict: !ENV [CI, false]
+
+theme:
+  features:
+    - navigation.tabs
+    - instant
+    - navigation.sections
+    - navigation.footer
+    - navigation.top
+
+  name: 'material'
+  icon:
+    repo: fontawesome/brands/github
+  # favicon: 'imgs/logo-medium.png'
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/lightbulb-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/lightbulb
+        name: Switch to light mode
+  # logo: 'imgs/logo-medium.png'
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - codehilite:
+      linenums: true
+  - pymdownx.arithmatex
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg      
+  - pymdownx.escapeall:
+      nbsp: true
+  - pymdownx.inlinehilite
+  - pymdownx.magiclink
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+  - toc:
+     permalink: "#"   
+
+plugins:
+  - search
+  - autolinks
+  - codeinclude:
+      title_mode: none
+  - social:
+      cards: !ENV [CI, false]
+      cards_color:
+        fill: "#bdbdbd"
+        text: "black"
+  - awesome-pages:
+      collapse_single_pages: true
+      strict: !ENV [CI, false]
+
+# Customization
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: 'https://github.com/bilal-fazlani'
+    - icon: fontawesome/brands/twitter
+      link: 'https://twitter.com/bilal_fazlani'
+    - icon: fontawesome/brands/linkedin
+      link: 'https://www.linkedin.com/in/bilal-fazlani/'
