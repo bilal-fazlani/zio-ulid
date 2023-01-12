@@ -116,7 +116,7 @@ object BinaryULID {
     }
 
   // https://stackoverflow.com/questions/10813154/how-do-i-convert-a-number-to-a-letter-in-java
-  private val decodingChars: Array[Byte] = Array[Byte](
+  private val decodingChars = Array[Byte](
     -1, -1, -1, -1, -1, -1, -1, -1, // 0
     -1, -1, -1, -1, -1, -1, -1, -1, // 8
     -1, -1, -1, -1, -1, -1, -1, -1, // 16
@@ -126,16 +126,19 @@ object BinaryULID {
     0, 1, 2, 3, 4, 5, 6, 7, // 48
     8, 9, -1, -1, -1, -1, -1, -1, // 56
     -1, 10, 11, 12, 13, 14, 15, 16, // 64
-    17, -1, 18, 19, -1, 20, 21, -1, // 72
+    17, 1, 18, 19, 1, 20, 21, 0, // 72
     22, 23, 24, 25, 26, -1, 27, 28, // 80
     29, 30, 31, -1, -1, -1, -1, -1, // 88
     -1, 10, 11, 12, 13, 14, 15, 16, // 96
-    17, -1, 18, 19, -1, 20, 21, -1, // 104
+    17, 1, 18, 19, 1, 20, 21, 0, // 104
     22, 23, 24, 25, 26, -1, 27, 28, // 112
     29, 30, 31 // 120
   )
 
-  inline private def decode(c: Char): Byte = decodingChars(c & 0x7f)
+  inline private def decode(c: Char): Byte = 
+    val index = c & 0x7f
+    if(index > -1 && index < 123) decodingChars(index)
+    else -1
 
   private val encodingChars = Chunk(
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E',
@@ -158,7 +161,9 @@ object BinaryULID {
     s.reverseInPlace().toString()
   }
 
-  private def isValidBase32(s: String): Boolean = s.forall { decode(_) != -1 }
+  private[zioUlid] def isValidBase32(s: String): Boolean = s.forall { c =>
+    decode(c) != -1
+  }
 
   private def validateInput(s: String): Either[ULIDStringParsingError, Unit] =
     if s.length != 26 then Left(InvalidLength(s))

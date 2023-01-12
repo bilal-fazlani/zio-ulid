@@ -14,7 +14,7 @@
 
 [data-md-color-scheme="slate"] {
   /* Background */
-  --md-default-bg-color: #2b3a4b;
+  --md-default-bg-color: #1f2124;
 
   /* Primary color shades */
   --md-primary-fg-color: #843d57;
@@ -27,6 +27,10 @@
   /* Footer */
   --md-footer-bg-color: rgba(73, 72, 72, 0.87);
   --md-footer-bg-color--dark: #232323;
+}
+
+[data-md-color-scheme="slate"] .md-typeset code {
+  background-color: #13141b;
 }
 
 [data-md-color-scheme="slate"] .md-button {

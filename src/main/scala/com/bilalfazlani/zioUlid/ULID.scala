@@ -2,11 +2,12 @@ package com.bilalfazlani.zioUlid
 
 import zio.{URIO, Chunk, ZIO}
 import com.bilalfazlani.zioUlid.ULIDStringParsingError
+import math.Ordered.orderingToOrdered
 
 final class ULID private[zioUlid] (private val ulidString: String)
     extends Ordered[ULID] {
 
-  override val toString: String = ulidString
+  override val toString: String = binary.encode
 
   lazy val timestamp: Long = binary.timestamp
 
@@ -17,7 +18,7 @@ final class ULID private[zioUlid] (private val ulidString: String)
   private lazy val binary: BinaryULID = BinaryULID.decodeUnsafe(ulidString)
 
   override def equals(other: Any): Boolean = other match {
-    case u: ULID => (u.ulidString compare ulidString) == 0
+    case u: ULID => (u.tuple compare binary.tuple) == 0
     case _       => false
   }
 

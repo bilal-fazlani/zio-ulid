@@ -4,16 +4,21 @@ import zio.test.*
 import zio.test.Assertion.*
 import zio.test.TestAspect.*
 import zio.Chunk
+import zio.ZIO
 
 object ULIDTest extends ZIOSpecDefault {
 
-  private val validChars =
-    "0123456789ABCDEFGHJKMNPQRSTVWXYZabcdefghjkmnpqrstvwxyz"
+  private val validDecodingChars =
+    "0123456789" +
+      "ABCDEFGHIJKLMNOPQRSTVWXYZ" +
+      "abcdefghijklmnopqrstvwxyz"
+
+  val firstValidChars = "01234567"
 
   val validStringGen = {
-    val firstValidChars = "01234567"
     val headGen = Gen.elements(firstValidChars.toCharArray()*)
-    val tailGen = Gen.stringN(25)(Gen.elements(validChars.toCharArray()*))
+    val tailGen =
+      Gen.stringN(25)(Gen.elements(validDecodingChars.toCharArray()*))
     (headGen zip tailGen).map(x => x._1 + x._2)
   }
   val timestampGen = Gen.long(0L, 281474976710655L)
@@ -55,9 +60,10 @@ object ULIDTest extends ZIOSpecDefault {
       )
     },
     test("report invalid ULID characters") {
-      val stringGen = Gen.stringN(1)(
-        Gen.elements("OoIiUuLl".toCharArray()*)
-      ) zip Gen.stringN(25)(Gen.elements(validChars.toCharArray()*))
+      val tailGen =
+        Gen.stringN(25)(Gen.char.filter(c => !validDecodingChars.contains(c)))
+      val headGen = Gen.elements(firstValidChars.toCharArray()*)
+      val stringGen = headGen zip tailGen
       check(stringGen) { case (a, b) =>
         val str = a + b
         val ulid = ULID(str)
@@ -146,11 +152,27 @@ object ULIDTest extends ZIOSpecDefault {
     },
     test("create ULID from bytes") {
       check(validStringGen) { str =>
-        val test = for
-          stringEncodedULID <- ULID(str)
-          bytesDecodedULID <- ULID(stringEncodedULID.bytes)
-        yield stringEncodedULID == bytesDecodedULID
-        assert(test)(isRight(isTrue))
+        for
+          stringEncodedULID <- ZIO
+            .fromEither(ULID(str))
+          bytesDecodedULID <- ZIO.fromEither(ULID(stringEncodedULID.bytes))
+        yield assertTrue(stringEncodedULID == bytesDecodedULID) //
+      }
+    },
+    test("i,l & o should be transalted to 1, 1 & 0 respectively") {
+      check(validStringGen) { str =>
+        val newStr = str
+          .replaceAll("i", "1")
+          .replaceAll("l", "1")
+          .replaceAll("o", "0")
+          .replaceAll("I", "1")
+          .replaceAll("L", "1")
+          .replaceAll("O", "0")
+          .toUpperCase()
+
+        val ulid = ULID(newStr).map(_.toString)
+
+        assert(ulid)(isRight(equalTo(newStr)))
       }
     }
   )

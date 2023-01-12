@@ -33,6 +33,12 @@ object BinaryULIDTest extends ZIOSpecDefault {
       val bytes = Chunk.fill(16)(0xff.toByte)
       val binaryUlid = BinaryULID.fromBytes(bytes)
       assert(binaryUlid)(isRight(equalTo(BinaryULID(-1L, -1L))))
+    },
+    test("isValidBase32 should validate all characters without throwing exception"){
+      check(Gen.char) { char =>
+        val isValid = BinaryULID.isValidBase32(char.toString())
+        assertCompletes
+      }
     }
   )
 }
