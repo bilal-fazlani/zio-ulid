@@ -26,9 +26,12 @@ ULID stands for "Universally Unique Lexicographically Sortable Identifier". Read
 libraryDependencies += "com.bilal-fazlani" %% "zio-ulid" % "<VERSION>"
 ```
 
+!!! note
+    Only Scala 3 is supported at the moment. Scala 2.13 will be supported in the next release.
+
 ## Why ZIO-ULID?
 
-There are already a few implementations of ULID in Scala, I could not find one that fits natively in ZIO ecosystem. This library takes the core logic from [airframe-ulid](https://wvlet.org/airframe/docs/airframe-ulid) and implements similar features using ZIO constructs.
+While there are already a few implementations of ULID in Scala, I could not find one that fits natively in ZIO ecosystem. This library has the core logic from [airframe-ulid](https://wvlet.org/airframe/docs/airframe-ulid) implemented using FP and ZIO constructs.
 
 ## Features
 
