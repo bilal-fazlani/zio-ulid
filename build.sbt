@@ -31,7 +31,7 @@ lazy val root = project
   .aggregate(`zio-ulid`, benchmarks, examples)
   .settings(
     name := "zio-ulid-root",
-    publish / skip := true,
+    publish / skip := true
   )
 
 lazy val `zio-ulid` = project
@@ -52,13 +52,20 @@ lazy val benchmarks = project
   .settings(
     name := "zio-ulid-benchmarks",
     publish / skip := true,
-  )  
+    libraryDependencies ++= Seq(
+      BenchmarkLibs.AirframeULID,
+      BenchmarkLibs.ULID4S,
+      BenchmarkLibs.ULIDCreator,
+      BenchmarkLibs.ScalaUlid,
+      BenchmarkLibs.SulkyUlid
+    )
+  )
   .dependsOn(`zio-ulid`)
 
 lazy val examples = project
   .in(file("./examples"))
   .settings(
     name := "zio-ulid-examples",
-    publish / skip := true,
-  )  
-  .dependsOn(`zio-ulid`)  
+    publish / skip := true
+  )
+  .dependsOn(`zio-ulid`)
