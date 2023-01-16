@@ -35,4 +35,4 @@ metals.sbt
 **/temp/
 Pipfile
 Pipfile.lock
-.gitbackup
+site
