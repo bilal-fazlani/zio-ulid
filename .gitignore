@@ -36,3 +36,4 @@ metals.sbt
 Pipfile
 Pipfile.lock
 .gitbackup
+site
