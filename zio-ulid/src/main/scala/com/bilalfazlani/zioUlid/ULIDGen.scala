@@ -23,7 +23,6 @@ case class ULIDGenLive(state: Ref.Synchronized[BinaryULID]) extends ULIDGen:
         val differentTime = currentMillis != lastTimestamp
         if (differentTime) then
           // No conflict at millisecond level. We can generate a new ULID safely
-          val rand = ZIO.randomWith(_.nextBytes(10)).run
           val bin: IO[ULIDBytesParsingError.InvalidTimestamp, BinaryULID] =
             BinaryULID(currentMillis)
           bin.orDie.run
