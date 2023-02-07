@@ -4,10 +4,10 @@ import zio.{URIO, Chunk, ZIO}
 import com.bilalfazlani.zioUlid.ULIDStringParsingError
 import math.Ordered.orderingToOrdered
 
-final class ULID private[zioUlid] (private val ulidString: String)
+final class ULID private[zioUlid] (private val binary: BinaryULID)
     extends Ordered[ULID] {
 
-  override val toString: String = binary.encode
+  override lazy val toString: String = binary.encode
 
   lazy val timestamp: Long = binary.timestamp
 
@@ -15,17 +15,15 @@ final class ULID private[zioUlid] (private val ulidString: String)
 
   lazy val tuple: (Long, Long) = binary.tuple
 
-  private lazy val binary: BinaryULID = BinaryULID.decodeUnsafe(ulidString)
-
   override def equals(other: Any): Boolean = other match {
     case u: ULID => (u.tuple compare binary.tuple) == 0
     case _       => false
   }
 
-  override def hashCode(): Int = ulidString.hashCode
+  override lazy val hashCode: Int = binary.hashCode
 
   override def compare(that: ULID): Int =
-    ulidString compare that.ulidString
+    tuple compare that.tuple
 }
 object ULID {
 
@@ -37,7 +35,7 @@ object ULID {
     *   Left(ULIDStringParsingError)
     */
   def apply(ulidString: String): Either[ULIDStringParsingError, ULID] =
-    BinaryULID.withValidation(ulidString)(new ULID(ulidString.toUpperCase))
+    BinaryULID.decode(ulidString).map(ULID.unsafe)
 
   /** Creates a ULID from a timestamp and random bytes. Performs timestamp
     * validation and random bytes size validation
@@ -70,7 +68,7 @@ object ULID {
     *   ULID
     */
   private[zioUlid] def unsafe(binaryULID: BinaryULID): ULID =
-    new ULID(binaryULID.encode)
+    new ULID(binaryULID)
 
   /** generates a new random ULID
     *

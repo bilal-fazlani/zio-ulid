@@ -93,7 +93,6 @@ object BinaryULID {
         (rand(9) & 0xffL)
     BinaryULID(hi, low)
 
-  // this is not used. instead ULID(string) is used
   private[zioUlid] def decode(
       s: String
   ): Either[ULIDStringParsingError, BinaryULID] =
