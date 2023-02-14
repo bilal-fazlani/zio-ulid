@@ -17,7 +17,7 @@ hide:
 
 ## What is ULID?
 
-ULID stands for "Universally Unique Lexicographically Sortable Identifier". Read more on [Official specification](https://github.com/ulid/spec) or [ZIO-ULID documentation](documentation/)
+ULID stands for "Universally Unique Lexicographically Sortable Identifier". Read more on [Official specification](https://github.com/ulid/spec) or [ZIO-ULID documentation](documentation/structure-encoding/)
 
 
 ## Installation
