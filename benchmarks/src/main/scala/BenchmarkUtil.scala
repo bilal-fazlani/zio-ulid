@@ -2,7 +2,7 @@ package com.bilalfazlani.zioUlid
 package benchmarks
 
 import scala.concurrent.ExecutionContext
-import zio.*
+import zio._
 
 object BenchmarkUtil extends Runtime[Any] { self =>
   val environment = Runtime.default.environment
