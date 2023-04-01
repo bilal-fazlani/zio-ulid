@@ -43,4 +43,4 @@ jobs:
         java-version: 17
         distribution: 'adopt'
     - name: Compile and run tests
-      run: sbt ";clean ;test"
+      run: sbt ";clean ;+test"

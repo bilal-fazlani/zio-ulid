@@ -1,23 +1,23 @@
 package examples
 
-import com.bilalfazlani.zioUlid.*
+import com.bilalfazlani.zioUlid._
 
-import zio.*
+import zio._
 import java.time.ZonedDateTime
 import java.time.Instant
 import java.time.ZoneId
-import com.bilalfazlani.zioUlid.ULIDStringParsingError.*
+import com.bilalfazlani.zioUlid.ULIDStringParsingError._
 
 object BasicExample extends ZIOAppDefault {
-  import com.bilalfazlani.zioUlid.*
+  import com.bilalfazlani.zioUlid._
 
-  val program = for
+  val program = for {
     // make a new ULID
     ulid <- ULID.nextULID
 
     // .toString gives a string representation of the ULID
     _ <- Console.printLine(ulid.toString)
-  yield ()
+  } yield ()
 
   val run = program.provide(ULIDGen.live)
 }
@@ -42,7 +42,7 @@ object CompareAndSort {
   import com.bilalfazlani.zioUlid.ULID
 
   val program =
-    for
+    for {
       // make new ULIDs
       ulid1 <- ULID.nextULID
       ulid2 <- ULID.nextULID
@@ -54,29 +54,29 @@ object CompareAndSort {
 
       // sort ULIDs
       sortedUlids = List(ulid2, ulid1).sorted
-    yield ()
+    } yield ()
 }
 
 object Encoding {
   import com.bilalfazlani.zioUlid.ULID
 
-  val program = for
+  val program = for {
     // make a new ULID
-    ulid: ULID <- ULID.nextULID
+    ulid <- ULID.nextULID
 
     // get a bytes representation of a ULID
     bytes: Chunk[Byte] = ulid.bytes
 
     // get a tuple (high, low) representation of a ULID
     tuple: (Long, Long) = ulid.tuple
-  yield ()
+  } yield ()
 }
 
 object DecodingFromString {
 
   // parse_from_string {
   import com.bilalfazlani.zioUlid.{ULID, ULIDStringParsingError}
-  import ULIDStringParsingError.*
+  import ULIDStringParsingError._
 
   private def getInputString: String = ???
 
@@ -107,7 +107,7 @@ object DecodingFromString {
 
 object DecodingFromBytes {
   // parse_from_bytes {
-  import com.bilalfazlani.zioUlid.*
+  import com.bilalfazlani.zioUlid._
 
   private def getInputBytes: Chunk[Byte] = ???
 
@@ -131,7 +131,7 @@ object FromTimestampAndBytes {
   private def getRandomBytes: Chunk[Byte] = ???
 
   // from_timestamp_and_bytes {
-  import com.bilalfazlani.zioUlid.*
+  import com.bilalfazlani.zioUlid._
 
   // create a ULID from a timestamp and bytes
   val ulid: Either[ULIDBytesParsingError, ULID] =

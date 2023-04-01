@@ -1,10 +1,10 @@
 import sbt._
 
 object Libs {
-  private lazy val zioVersion = "2.0.6"
+  val zioVersion = "2.0.10"
 
   lazy val zio = "dev.zio" %% "zio" % zioVersion
-  lazy val zioDirect = "dev.zio" %% "zio-direct" % "1.0.0-RC4"
+  lazy val zioDirect = "dev.zio" %% "zio-direct" % "1.0.0-RC7"
   lazy val zioTest = "dev.zio" %% "zio-test" % zioVersion
   lazy val zioTestSbt = "dev.zio" %% "zio-test-sbt" % zioVersion
 }
@@ -16,6 +16,6 @@ object BenchmarkLibs {
   lazy val ULID4S = ("net.petitviolet" %% "ulid4s" % "0.5.0").withCrossVersion(
     CrossVersion.for3Use2_13
   )
-  lazy val AirframeULID = "org.wvlet.airframe" %% "airframe-ulid" % "23.1.1"
+  lazy val AirframeULID = "org.wvlet.airframe" %% "airframe-ulid" % "23.3.4"
   lazy val ULIDCreator = "com.github.f4b6a3" % "ulid-creator" % "5.1.0"
 }

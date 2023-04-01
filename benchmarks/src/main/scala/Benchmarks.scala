@@ -24,13 +24,16 @@ import zio.ZIO
 import zio.ZEnvironment
 import zio.Ref
 
-val zulid = ULIDGenLive(unsafeRun(Ref.Synchronized.make(BinaryULID.empty)))
-val sUlid = new sULID()
+object Cache {
+  val zulid = ULIDGenLive(unsafeRun(Ref.Synchronized.make(BinaryULID.empty)))
+  val sUlid = new sULID()
+}
 
 @State(Scope.Benchmark)
 @BenchmarkMode(Array(Mode.SampleTime))
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 class ULIDBenchmark {
+  import Cache._
 
   // // UUID
   // @Benchmark

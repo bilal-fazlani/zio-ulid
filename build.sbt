@@ -1,4 +1,5 @@
 val scala3Version = "3.2.2"
+val scala2Version = "2.13.10"
 
 ThisBuild / organization := "com.bilal-fazlani"
 ThisBuild / organizationName := "Bilal Fazlani"
@@ -24,13 +25,12 @@ ThisBuild / licenses := List(
 )
 ThisBuild / homepage := Some(url("https://github.com/bilal-fazlani/zio-ulid"))
 
-ThisBuild / scalaVersion := scala3Version
-
 lazy val root = project
   .in(file("."))
   .aggregate(`zio-ulid`, benchmarks, examples)
   .settings(
     name := "zio-ulid-root",
+    scalaVersion := scala2Version,
     publish / skip := true
   )
 
@@ -38,6 +38,8 @@ lazy val `zio-ulid` = project
   .in(file("./zio-ulid"))
   .settings(
     name := "zio-ulid",
+    scalaVersion := scala2Version,
+    crossScalaVersions := Seq(scala2Version, scala3Version),
     libraryDependencies ++= Seq(
       Libs.zio,
       Libs.zioDirect,
@@ -51,6 +53,7 @@ lazy val benchmarks = project
   .enablePlugins(JmhPlugin)
   .settings(
     name := "zio-ulid-benchmarks",
+    scalaVersion := scala2Version,
     publish / skip := true,
     libraryDependencies ++= Seq(
       BenchmarkLibs.AirframeULID,
@@ -66,6 +69,7 @@ lazy val examples = project
   .in(file("./examples"))
   .settings(
     name := "zio-ulid-examples",
+    scalaVersion := scala2Version,
     publish / skip := true
   )
   .dependsOn(`zio-ulid`)

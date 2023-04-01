@@ -1,8 +1,8 @@
 package com.bilalfazlani.zioUlid
 
-import zio.test.*
-import zio.test.Assertion.*
-import zio.test.TestAspect.*
+import zio.test._
+import zio.test.Assertion._
+import zio.test.TestAspect._
 import zio.Chunk
 import zio.ZIO
 
@@ -16,9 +16,9 @@ object ULIDTest extends ZIOSpecDefault {
   val firstValidChars = "01234567"
 
   val validStringGen = {
-    val headGen = Gen.elements(firstValidChars.toCharArray()*)
+    val headGen = Gen.elements(firstValidChars.toCharArray(): _*)
     val tailGen =
-      Gen.stringN(25)(Gen.elements(validDecodingChars.toCharArray()*))
+      Gen.stringN(25)(Gen.elements(validDecodingChars.toCharArray(): _*))
     (headGen zip tailGen).map(x => x._1 + x._2)
   }
   val timestampGen = Gen.long(0L, 281474976710655L)
@@ -62,7 +62,7 @@ object ULIDTest extends ZIOSpecDefault {
     test("report invalid ULID characters") {
       val tailGen =
         Gen.stringN(25)(Gen.char.filter(c => !validDecodingChars.contains(c)))
-      val headGen = Gen.elements(firstValidChars.toCharArray()*)
+      val headGen = Gen.elements(firstValidChars.toCharArray(): _*)
       val stringGen = headGen zip tailGen
       check(stringGen) { case (a, b) =>
         val str = a + b
@@ -146,17 +146,22 @@ object ULIDTest extends ZIOSpecDefault {
     test(
       "parity between ULIDs created using string and timestamp & random bytes"
     ) {
-      val ulid1 = ULID("7ZZZZZZZZZZZZZZZZZZZZZZZZZ")
-      val ulid2 = ULID(281474976710655L, Chunk.fill[Byte](10)(0xff.toByte))
-      assert(ulid1)(isRight && equalTo(ulid2))
+      val ulid1: Either[ULIDStringParsingError, ULID] =
+        ULID("7ZZZZZZZZZZZZZZZZZZZZZZZZZ")
+      val ulid2: Either[ULIDBytesParsingError, ULID] =
+        ULID(281474976710655L, Chunk.fill[Byte](10)(0xff.toByte))
+      // assert(ulid1)(isRight && equalTo(ulid2))
+      assert(ulid1)(isRight) &&
+      assert(ulid2)(isRight) &&
+      assertTrue(ulid1.toOption.get == ulid2.toOption.get)
     },
     test("create ULID from bytes") {
       check(validStringGen) { str =>
-        for
+        for {
           stringEncodedULID <- ZIO
             .fromEither(ULID(str))
           bytesDecodedULID <- ZIO.fromEither(ULID(stringEncodedULID.bytes))
-        yield assertTrue(stringEncodedULID == bytesDecodedULID) //
+        } yield assertTrue(stringEncodedULID == bytesDecodedULID) //
       }
     },
     test("i,l & o should be transalted to 1, 1 & 0 respectively") {
