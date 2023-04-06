@@ -23,7 +23,7 @@ ThisBuild / licenses := List(
     "https://github.com/bilal-fazlani/zio-ulid/blob/main/license.md"
   )
 )
-ThisBuild / homepage := Some(url("https://github.com/bilal-fazlani/zio-ulid"))
+ThisBuild / homepage := Some(url("https://zio-ulid.bilal-fazlani.com/"))
 
 lazy val root = project
   .in(file("."))
