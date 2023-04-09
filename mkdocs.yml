@@ -9,7 +9,7 @@ strict: !ENV [CI, false]
 theme:
   features:
     - navigation.tabs
-    - instant
+    - navigation.instant
     - navigation.sections
     - navigation.footer
     - navigation.top
