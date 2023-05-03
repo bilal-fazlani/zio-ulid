@@ -27,28 +27,37 @@ ThisBuild / homepage := Some(url("https://zio-ulid.bilal-fazlani.com/"))
 
 lazy val root = project
   .in(file("."))
-  .aggregate(`zio-ulid`, benchmarks, examples)
+  .aggregate(
+    `zio-ulid`.jvm,
+    `zio-ulid`.js,
+    benchmarks.jvm,
+    benchmarks.js,
+    examples.jvm,
+    examples.js
+  )
   .settings(
     name := "zio-ulid-root",
     scalaVersion := scala2Version,
     publish / skip := true
   )
 
-lazy val `zio-ulid` = project
+lazy val `zio-ulid` = crossProject(JSPlatform, JVMPlatform)
   .in(file("./zio-ulid"))
   .settings(
     name := "zio-ulid",
     scalaVersion := scala2Version,
     crossScalaVersions := Seq(scala2Version, scala3Version),
     libraryDependencies ++= Seq(
-      Libs.zio,
-      Libs.zioDirect,
-      Libs.zioTest,
-      Libs.zioTestSbt
+      "dev.zio" %%% "zio" % Libs.zioVersion,
+      "dev.zio" %%% "zio-test" % Libs.zioVersion,
+      "dev.zio" %%% "zio-test-sbt" % Libs.zioVersion
     )
   )
+  .jsSettings(
+    scalaJSUseMainModuleInitializer := true
+  )
 
-lazy val benchmarks = project
+lazy val benchmarks = crossProject(JSPlatform, JVMPlatform)
   .in(file("./benchmarks"))
   .enablePlugins(JmhPlugin)
   .settings(
@@ -65,7 +74,7 @@ lazy val benchmarks = project
   )
   .dependsOn(`zio-ulid`)
 
-lazy val examples = project
+lazy val examples = crossProject(JSPlatform, JVMPlatform)
   .in(file("./examples"))
   .settings(
     name := "zio-ulid-examples",
