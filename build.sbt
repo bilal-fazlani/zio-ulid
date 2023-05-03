@@ -1,3 +1,5 @@
+import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
+
 val scala3Version = "3.2.2"
 val scala2Version = "2.13.10"
 
@@ -30,10 +32,8 @@ lazy val root = project
   .aggregate(
     `zio-ulid`.jvm,
     `zio-ulid`.js,
-    benchmarks.jvm,
-    benchmarks.js,
-    examples.jvm,
-    examples.js
+    benchmarks,
+    examples
   )
   .settings(
     name := "zio-ulid-root",
@@ -42,6 +42,7 @@ lazy val root = project
   )
 
 lazy val `zio-ulid` = crossProject(JSPlatform, JVMPlatform)
+  .crossType(CrossType.Pure)
   .in(file("./zio-ulid"))
   .settings(
     name := "zio-ulid",
@@ -57,7 +58,7 @@ lazy val `zio-ulid` = crossProject(JSPlatform, JVMPlatform)
     scalaJSUseMainModuleInitializer := true
   )
 
-lazy val benchmarks = crossProject(JSPlatform, JVMPlatform)
+lazy val benchmarks = project
   .in(file("./benchmarks"))
   .enablePlugins(JmhPlugin)
   .settings(
@@ -72,13 +73,13 @@ lazy val benchmarks = crossProject(JSPlatform, JVMPlatform)
       BenchmarkLibs.SulkyUlid
     )
   )
-  .dependsOn(`zio-ulid`)
+  .dependsOn(`zio-ulid`.jvm)
 
-lazy val examples = crossProject(JSPlatform, JVMPlatform)
+lazy val examples = project
   .in(file("./examples"))
   .settings(
     name := "zio-ulid-examples",
     scalaVersion := scala2Version,
     publish / skip := true
   )
-  .dependsOn(`zio-ulid`)
+  .dependsOn(`zio-ulid`.jvm)
