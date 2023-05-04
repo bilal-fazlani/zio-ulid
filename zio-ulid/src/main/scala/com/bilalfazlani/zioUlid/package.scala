@@ -1,7 +1,6 @@
 package com.bilalfazlani
 
 import zio._
-import zio.direct._
 import com.bilalfazlani.zioUlid.ULIDBytesParsingError._
 import com.bilalfazlani.zioUlid.ULIDStringParsingError._
 import java.util.concurrent.TimeUnit
@@ -50,11 +49,10 @@ package object zioUlid {
     private[zioUlid] def apply(
         timestamp: Long
     ): IO[InvalidTimestamp, BinaryULID] =
-      defer {
-        val randBytes = ZIO.randomWith(_.nextBytes(10)).run
-        val _ = ZIO.fromEither(validateTimestamp(timestamp)).run
-        unsafe(timestamp, randBytes)
-      }
+      for {
+        randBytes <- ZIO.randomWith(_.nextBytes(10))
+        _ <- ZIO.fromEither(validateTimestamp(timestamp))
+      } yield unsafe(timestamp, randBytes)
 
     // todo:remove var
     private[zioUlid] def fromBytes(
