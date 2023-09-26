@@ -1,7 +1,7 @@
 import sbt._
 
 object Libs {
-  val zioVersion = "2.0.17"
+  val zioVersion = "2.0.18"
 }
 
 object BenchmarkLibs {
