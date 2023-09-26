@@ -1,7 +1,7 @@
 import sbtcrossproject.CrossPlugin.autoImport.{crossProject, CrossType}
 
-val scala3Version = "3.2.2"
-val scala2Version = "2.13.10"
+val scala3Version = "3.3.0"
+val scala2Version = "2.13.12"
 
 ThisBuild / organization := "com.bilal-fazlani"
 ThisBuild / organizationName := "Bilal Fazlani"

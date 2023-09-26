@@ -1,7 +1,7 @@
 import sbt._
 
 object Libs {
-  val zioVersion = "2.0.10"
+  val zioVersion = "2.0.17"
 }
 
 object BenchmarkLibs {
@@ -11,6 +11,6 @@ object BenchmarkLibs {
   lazy val ULID4S = ("net.petitviolet" %% "ulid4s" % "0.5.0").withCrossVersion(
     CrossVersion.for3Use2_13
   )
-  lazy val AirframeULID = "org.wvlet.airframe" %% "airframe-ulid" % "23.3.4"
-  lazy val ULIDCreator = "com.github.f4b6a3" % "ulid-creator" % "5.1.0"
+  lazy val AirframeULID = "org.wvlet.airframe" %% "airframe-ulid" % "23.9.2"
+  lazy val ULIDCreator = "com.github.f4b6a3" % "ulid-creator" % "5.2.2"
 }
