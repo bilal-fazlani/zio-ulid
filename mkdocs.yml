@@ -4,7 +4,7 @@ site_description: ZIO Scala implementation for ulid specification
 repo_name: "bilal-fazlani/zio-ulid"
 repo_url: "https://github.com/bilal-fazlani/zio-ulid"
 edit_uri: edit/main/docs/
-strict: !ENV [CI, false]
+strict: false
 
 theme:
   features:
