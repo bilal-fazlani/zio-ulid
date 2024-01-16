@@ -1,9 +1,7 @@
 package com.bilalfazlani
 
 import zio._
-import com.bilalfazlani.zioUlid.ULIDBytesParsingError._
-import com.bilalfazlani.zioUlid.ULIDStringParsingError._
-import java.util.concurrent.TimeUnit
+import com.bilalfazlani.zioUlid.ULIDError._
 
 package object zioUlid {
   type BinaryULID = (Long, Long)
@@ -169,10 +167,10 @@ package object zioUlid {
     private def validateInput(
         s: String
     ): Either[ULIDStringParsingError, Unit] = {
-      if (s.length != 26) Left(InvalidLength(s))
+      if (s.length != 26) Left(InvalidStringLength(s))
       else if (!isValidBase32(s)) Left(InvalidCharacters(s))
       else if (s.toUpperCase > "7ZZZZZZZZZZZZZZZZZZZZZZZZZ")
-        Left(OverflowValue(s))
+        Left(ULIDOverflow(s))
       else Right(())
     }
 

@@ -1,7 +1,7 @@
 package com.bilalfazlani.zioUlid
 
 import zio.{URIO, Chunk, ZIO}
-import com.bilalfazlani.zioUlid.ULIDStringParsingError
+import com.bilalfazlani.zioUlid.ULIDError.InvalidBytesLength
 import math.Ordered.orderingToOrdered
 
 final class ULID private[zioUlid] (private val binary: BinaryULID)
@@ -56,7 +56,7 @@ object ULID {
 
   def apply(
       allBytes: Chunk[Byte]
-  ): Either[ULIDBytesParsingError.InvalidBytesLength, ULID] =
+  ): Either[InvalidBytesLength, ULID] =
     BinaryULID.fromBytes(allBytes).map(ULID.unsafe)
 
   def apply(high: Long, low: Long) = ULID.unsafe(BinaryULID(high, low))

@@ -59,9 +59,9 @@ This is a direct operation and does not need any validations as any two Longs ar
 
 Parsing a string into a ULID returns `Either[ULIDStringParsingError, ULID]`. It can fail with following errors
 
-- `ULIDStringParsingError.InvalidLength` when string length is not 26
-- `ULIDStringParsingError.InvalidCharacters` when string contains characters which are not supported by [encoding](structure-encoding.md)
-- `ULIDStringParsingError.OverflowValue` when string contains a value which is greater than 128 bits
+- `ULIDError.InvalidLength` when string length is not 26
+- `ULIDError.InvalidCharacters` when string contains characters which are not supported by [encoding](structure-encoding.md)
+- `ULIDError.OverflowValue` when string contains a value which is greater than 128 bits
 
 <!--codeinclude-->
 [parse from string](../../examples/src/main/scala/Examples.scala) inside_block:parse_from_string
@@ -97,5 +97,5 @@ You can create a ULID from a timestamp (`Long`) and a `Chunk[Byte]`. Chunk shoul
 
 This will return an `Either[ULIDBytesParsingError, ULID]` with following errors
 
-- `ULIDBytesParsingError.InvalidBytesLength` when chunk size is not 10
-- `ULIDBytesParsingError.InvalidTimestamp` when timestamp is greater than 48 bits
+- `ULIDError.InvalidBytesLength` when chunk size is not 10
+- `ULIDError.InvalidTimestamp` when timestamp is greater than 48 bits

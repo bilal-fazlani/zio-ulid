@@ -12,7 +12,7 @@ object ULIDGenTest extends ZIOSpecDefault {
         for {
           ulid <- ULID.nextULID.map(_.toString)
         } yield assertTrue(ulid == "00000000000000000000000001")
-      ).provide(ULIDGen.live)
+        ).provide(ULIDGen.live)
     },
     test("ULID in same millisecond increments random part") {
       (for {
@@ -28,11 +28,7 @@ object ULIDGenTest extends ZIOSpecDefault {
       (for {
         _ <- TestClock.adjust(1.millisecond)
         _ <- TestRandom.clearBytes
-        _ <- TestRandom.feedBytes(
-          randomBytes,
-          randomBytes
-        ) // todo: not sure why is it needed to pass twice
-        // but it does not work without it
+        _ <- TestRandom.feedBytes(randomBytes)
         ulid <- ULID.nextULID.map(_.toString)
       } yield assertTrue(ulid.toString == "0000000001ZZZZZZZZZZZZZZZZ"))
         .provide(ULIDGen.live)

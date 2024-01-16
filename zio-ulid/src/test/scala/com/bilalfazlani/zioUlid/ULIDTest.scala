@@ -2,9 +2,9 @@ package com.bilalfazlani.zioUlid
 
 import zio.test._
 import zio.test.Assertion._
-import zio.test.TestAspect._
 import zio.Chunk
 import zio.ZIO
+import ULIDError._
 
 object ULIDTest extends ZIOSpecDefault {
 
@@ -34,7 +34,7 @@ object ULIDTest extends ZIOSpecDefault {
       assert(ulid)(
         isLeft(
           equalTo(
-            ULIDStringParsingError.OverflowValue(
+            ULIDOverflow(
               "Z0000000000000000000000000"
             )
           )
@@ -44,7 +44,7 @@ object ULIDTest extends ZIOSpecDefault {
     test("report smaller ULID length") {
       val ulid = ULID("123AA")
       assert(ulid)(
-        isLeft(equalTo(ULIDStringParsingError.InvalidLength("123AA")))
+        isLeft(equalTo(InvalidStringLength("123AA")))
       )
     },
     test("report larger ULID length") {
@@ -52,7 +52,7 @@ object ULIDTest extends ZIOSpecDefault {
       assert(ulid)(
         isLeft(
           equalTo(
-            ULIDStringParsingError.InvalidLength(
+            InvalidStringLength(
               "123AA123AA123AA123AA123AA123AA123AA"
             )
           )
@@ -68,7 +68,7 @@ object ULIDTest extends ZIOSpecDefault {
         val str = a + b
         val ulid = ULID(str)
         assert(ulid)(
-          isLeft(equalTo(ULIDStringParsingError.InvalidCharacters(str)))
+          isLeft(equalTo(InvalidCharacters(str)))
         )
       }
     },
@@ -122,7 +122,7 @@ object ULIDTest extends ZIOSpecDefault {
       assert(encoded)(
         isLeft(
           equalTo(
-            ULIDBytesParsingError.InvalidBytesLength(
+            InvalidBytesLength(
               10,
               8
             )
@@ -138,7 +138,7 @@ object ULIDTest extends ZIOSpecDefault {
       assert(encoded)(
         isLeft(
           equalTo(
-            ULIDBytesParsingError.InvalidTimestamp(281474976710656L)
+            InvalidTimestamp(281474976710656L)
           )
         )
       )

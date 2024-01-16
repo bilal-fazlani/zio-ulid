@@ -76,7 +76,6 @@ object DecodingFromString {
 
   // parse_from_string {
   import com.bilalfazlani.zioUlid.{ULID, ULIDStringParsingError}
-  import ULIDStringParsingError._
 
   private def getInputString: String = ???
 
@@ -85,11 +84,11 @@ object DecodingFromString {
 
   ulid.fold(
     {
-      case InvalidCharacters(_) =>
+      case ULIDError.InvalidCharacters(_) =>
         println("Invalid characters in the string")
-      case InvalidLength(_) =>
+      case ULIDError.InvalidStringLength(_) =>
         println(s"Invalid length of string")
-      case OverflowValue(string) =>
+      case ULIDError.ULIDOverflow(string) =>
         println(s"Overflow value $string")
     },
     ulid => println(ulid.toString)
@@ -112,7 +111,7 @@ object DecodingFromBytes {
   private def getInputBytes: Chunk[Byte] = ???
 
   // decode a ULID from bytes
-  val ulid: Either[ULIDBytesParsingError.InvalidBytesLength, ULID] = ULID(
+  val ulid: Either[ULIDError.InvalidBytesLength, ULID] = ULID(
     getInputBytes
   )
   // }
