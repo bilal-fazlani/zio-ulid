@@ -1,8 +1,8 @@
 site_name: zio-ulid
 site_url: https://zio-ulid.bilal-fazlani.com
 site_description: ZIO Scala implementation for ulid specification
-repo_name: 'bilal-fazlani/zio-ulid'
-repo_url: 'https://github.com/bilal-fazlani/zio-ulid'
+repo_name: "bilal-fazlani/zio-ulid"
+repo_url: "https://github.com/bilal-fazlani/zio-ulid"
 edit_uri: edit/main/docs/
 strict: !ENV [CI, false]
 
@@ -14,7 +14,7 @@ theme:
     - navigation.footer
     - navigation.top
 
-  name: 'material'
+  name: "material"
   icon:
     repo: fontawesome/brands/github
   # favicon: 'imgs/logo-medium.png'
@@ -44,7 +44,7 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg      
+      emoji_generator: !!python/name:materialx.emoji.to_svg
   - pymdownx.escapeall:
       nbsp: true
   - pymdownx.inlinehilite
@@ -58,7 +58,7 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
   - toc:
-     permalink: "#"   
+      permalink: "#"
 
 plugins:
   - search
@@ -79,10 +79,13 @@ extra_css:
   - stylesheets/extra.css
 
 extra:
+  generator: false
   social:
     - icon: fontawesome/brands/github
-      link: 'https://github.com/bilal-fazlani'
+      link: "https://github.com/bilal-fazlani"
     - icon: fontawesome/brands/twitter
-      link: 'https://twitter.com/bilal_fazlani'
+      link: "https://twitter.com/bilal_fazlani"
     - icon: fontawesome/brands/linkedin
-      link: 'https://www.linkedin.com/in/bilal-fazlani/'
+      link: "https://www.linkedin.com/in/bilal-fazlani/"
+
+copyright: Copyright &copy 2024 &nbsp;<b><a href="https://bilal-fazlani.com">Bilal Fazlani</a></b>
